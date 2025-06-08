@@ -45,16 +45,18 @@ side_shape = [
 
 ];
 
+// The handle of the screwdriver rests on the wings of each sect
 module sect(th) {
-linear_extrude(th)
-union() {
-    polygon(side_shape);
-    mirror([1,0,0]) polygon(side_shape);
+    linear_extrude(th){
+        union() {
+            polygon(side_shape);
+            mirror([1,0,0]) polygon(side_shape);
+        };
+    };
 };
-};
 
 
-
+// Slots for hex bits.
 module hex(){
     hex_size = 6.35;
     clearance = 0.1;
@@ -63,13 +65,18 @@ module hex(){
 }
 
 module stamp(){
-translate([0,-0.8,0]) rotate([90,0,0]) linear_extrude(2) text("mun", size = 8, halign = "center", valign = "center", font = "ProggyClean Nerd Font" );
+    translate([0,-0.8,0]) rotate([90,0,0]) linear_extrude(2) text("mun", size = 8, halign = "center", valign = "center", font = "ProggyClean Nerd Font" );
 }
 
 
-edge = 5;
-gap = 12;
-inter = 17;
+// Create a series of prongs, screwdrivers drop between them.
+// Doing prongs instead of holes for the screwdrivers because it is easier to put in and pull out.
+
+// These add up to 80, that should just fit in the space above the side compartment.
+edge = 5; // x2 The smallest edge for resting
+gap = 12; // x3 Wide gaps for the yellow wera scredrivers with nuts
+inter = 17; // x3 Whatever space is left - its not quite enough to stop them from overlapping a bit.
+
 difference() {
 union() {
 translate([0,0,0]) sect(edge);
