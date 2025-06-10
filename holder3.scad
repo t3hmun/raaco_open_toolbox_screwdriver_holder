@@ -6,18 +6,13 @@ open = 30;
 seat = 24;
 clip = 2;
 dep  = 25.5;
-prong = 4;
-prong_h_outer = 6;
-prong_h_inner = 2;
 wall = 3;
 
 /*
 
 Plan for the poly, is just half to be mirrored
 
-<prong>
-|\
-| |_____________________
+ _______________________
 |__________     ________0,0        | wall
   <wing>   |   /   <seat/2     |
            |  /               dep (inside the clip)
@@ -78,15 +73,13 @@ module stamp(){
 }
 
 
-// Create a series of prongs, screwdrivers drop between them.
-// Doing prongs instead of holes for the screwdrivers because it is easier to put in and pull out.
 
 // These add up to 80, that should just fit in the space above the side compartment.
-edge = 5; // x2 The smallest edge for resting
-gap = 12; // x3 Wide gaps for the yellow wera scredrivers with nuts
+edge = 5; 
+gap = 12;
 ga = 10; 
 g = 5; 
-inter = 17; // x3 Whatever space is left - its not quite enough to stop them from overlapping a bit.
+inter = 17; 
 
 offset = open/2 + clip + 0.01;
 
@@ -103,12 +96,12 @@ translate([0,10,40]) hex();
 translate([0,10,50]) hex();
 translate([0,10,60]) hex();
 translate([0,10,70]) hex();
-translate([offset+(gap/2),0,edge+(gap/2)]) slot(gap);
-translate([offset+(gap/2),0,edge+gap+inter+2+(gap/2)]) slot(gap);
-translate([offset+(gap/2),0,edge+gap+inter+inter+gap+(gap/2)]) slot(ga);
-translate([-offset-(gap/2),0,edge+(gap/2)]) slot(gap);
-translate([-offset-(gap/2),0,edge+gap+inter+2+(gap/2)]) slot(ga);
-translate([-offset-(gap/2),0,edge+gap+inter+inter+gap+(gap/2)]) slot(g);
+translate([offset+(gap/2),0,edge+(gap/2)]) slot(gap); //BIG S-1.2x7
+translate([offset+(gap/2),0,edge+gap+inter+2+(gap/2)]) slot(gap); //BIG S-1x5.5
+translate([offset+(gap/2),0,edge+gap+inter+inter+gap+(gap/2)]) slot(ga); //Medium S-0.8x4.5
+translate([-offset-(gap/2),0,edge+(gap/2)]) slot(gap); //BIG  PH2
+translate([-offset-(gap/2),0,edge+gap+inter+2+(gap/2)]) slot(ga); // Medium PH1
+translate([-offset-(gap/2),0,edge+gap+inter+inter+gap+(gap/2)]) slot(g); // small S-0.6x3.5
 }
 }
 
