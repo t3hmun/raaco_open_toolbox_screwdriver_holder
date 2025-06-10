@@ -1,3 +1,5 @@
+// This design fails, the prongs don't hold the scredrivers stable enough, they wobble and fall too easily.
+
 // A clip on addition for the Raaco Open ToolBox (Product Id: 137195)
 // This is a screwdrver holder made to clip over the compartments to the right of the handle.
 
