@@ -1,7 +1,7 @@
 // A clip on addition for the Raaco Open ToolBox (Product Id: 137195)
 // This is a screwdrver holder made to clip over the compartments to the right of the handle.
 
-wing = 20;
+wing = 17;
 open = 30;
 seat = 24;
 clip = 2;
@@ -40,9 +40,7 @@ side_shape = [
     [(open/2) + clip, dep],
     [(open/2) + clip, 6],
     [(open/2) + clip + wing, 0],
-    [(open/2) + clip + wing, -wall -prong_h_outer],
-    [(open/2) + clip + wing - prong, -wall -prong_h_inner],
-    [(open/2) + clip + wing - prong, -wall],
+    [(open/2) + clip + wing, -wall],
     [0, -wall],
 
 ];
@@ -71,12 +69,12 @@ module slot(w){
     // Rotate to pointy up so it doesn't need support
     union(){
     translate([0,50,0]) rotate([90,90,0]) cylinder(d=w/cos(30), h=60, $fn=6);
-    rotate([90,0,0]) cylinder(h=6.001, r1=3, r2=9.8, center=true);
+    translate([0,-1,0])rotate([90,0,0]) cylinder(h=5.001, r1=3, r2=9.8, center=true);
     }
 }
 
 module stamp(){
-    translate([0,-0.8,0]) rotate([90,0,0]) linear_extrude(2) text("mun", size = 8, halign = "center", valign = "center", font = "ProggyClean Nerd Font" );
+    translate([0,-1.4,0]) rotate([90,0,0]) linear_extrude(2) text("mun", size = 8, halign = "center", valign = "center", font = "ProggyClean Nerd Font" );
 }
 
 
@@ -87,6 +85,7 @@ module stamp(){
 edge = 5; // x2 The smallest edge for resting
 gap = 12; // x3 Wide gaps for the yellow wera scredrivers with nuts
 ga = 10; 
+g = 5; 
 inter = 17; // x3 Whatever space is left - its not quite enough to stop them from overlapping a bit.
 
 offset = open/2 + clip + 0.01;
@@ -94,6 +93,7 @@ offset = open/2 + clip + 0.01;
 difference() {
 union() {
 translate([0,0,0]) sect(80);
+translate([0,0,3.4]) stamp();
 };
 union(){
 translate([0,10,10]) hex();
@@ -107,8 +107,8 @@ translate([offset+(gap/2),0,edge+(gap/2)]) slot(gap);
 translate([offset+(gap/2),0,edge+gap+inter+2+(gap/2)]) slot(gap);
 translate([offset+(gap/2),0,edge+gap+inter+inter+gap+(gap/2)]) slot(ga);
 translate([-offset-(gap/2),0,edge+(gap/2)]) slot(gap);
-translate([-offset-(gap/2),0,edge+gap+inter+2+(gap/2)]) slot(gap);
-translate([-offset-(gap/2),0,edge+gap+inter+inter+gap+(gap/2)]) slot(ga);
+translate([-offset-(gap/2),0,edge+gap+inter+2+(gap/2)]) slot(ga);
+translate([-offset-(gap/2),0,edge+gap+inter+inter+gap+(gap/2)]) slot(g);
 }
 }
 
