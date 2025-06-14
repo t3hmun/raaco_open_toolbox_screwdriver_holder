@@ -97,8 +97,17 @@ module slot_hex(uw, lw, uh) {
   }
 }
 
-module stamp() {
-  translate([0, -1.4, 1]) rotate([90, 0, 0]) linear_extrude(2) text("mun", size=9, halign="center", valign="center", font="ProggyClean Nerd Font");
+module stamp(text) {
+  translate([0, -1.6, 1]) rotate([90, 0, 0]) linear_extrude(2) text(text, size=9, halign="center", valign="center", font="ProggyClean Nerd Font");
+}
+
+module label(text) {
+  translate([0, 3, 0]) rotate([90, 0, 0]) linear_extrude(3) text(text, size=8, halign="center", valign="center", font="GohuFont 11 Nerd Font");
+}
+
+// A cutout to measure metric nuts, w is the flat to flat distance.
+module nut(w) {
+  rotate([90, 90, 0]) cylinder(d=w / cos(30), h=70, $fn=6);
 }
 
 offset = open / 2 + clip + (5) + 0.01;
@@ -110,14 +119,14 @@ space = 34; // gap between each large screwdriver - perfect for wera large side 
 total_len = 88; // Total len of the whole holder - sized to fit onto the Raaco Open ToolBox
 
 small_d = 10; // The diameter of the small slots
-small_edge_dist = (small_d / 2) + 1; // The distance from the edge to the first small slot
+small_edge_dist = (small_d / 2) + 3; // The distance from the edge to the first small slot
 smalls = 7; // The number of small slots
-gaps = (total_len - (small_edge_dist*2)) / (smalls-1);
+gaps = (total_len - (small_edge_dist * 2)) / (smalls - 1);
 
 difference() {
   union() {
     translate([0, 0, 0]) sect(total_len);
-    translate([0, 0, 3.4]) stamp();
+    translate([0, 0, 3.4]) stamp("mun");
   }
 
   union() {
@@ -129,9 +138,9 @@ difference() {
     translate([0, 10, 64]) hex();
     translate([0, 10, 74]) hex();
 
-    translate([-sbo, 0, fg]) rotate([0, 0, -sba]) translate([-sbt / 2, 0, 0]) slot_hex(10, 7, 10); //MEDIUM 
-    translate([-sbo, 0, fg + space]) rotate([0, 0, -sba]) translate([-sbt / 2, 0, 0]) slot_hex(10, 7, 10); //MEDIUM 
-    translate([-sbo, 0, fg + space + space]) rotate([0, 0, -sba]) translate([-sbt / 2, 0, 0]) slot_hex(10, 7, 10); //MEDIUM 
+    translate([-sbo, 0, fg]) rotate([0, 0, -sba]) translate([-sbt / 2 + 2, 0, 0]) slot_hex(10, 7, 10); //MEDIUM 
+    translate([-sbo, 0, fg + space]) rotate([0, 0, -sba]) translate([-sbt / 2 + 2, 0, 0]) slot_hex(10, 7, 10); //MEDIUM 
+    translate([-sbo, 0, fg + space + space]) rotate([0, 0, -sba]) translate([-sbt / 2 + 2, 0, 0]) slot_hex(10, 7, 10); //MEDIUM 
 
     translate([sbo, 0, fg]) rotate([0, 0, sba]) translate([15, 0, 0]) slot_hex(12, 9, 10); //BIG 
     translate([sbo, 0, fg + space]) rotate([0, 0, sba]) translate([15, 0, 0]) slot_hex(12, 9, 10); //BIG 
@@ -144,5 +153,22 @@ difference() {
     for (i = [0:smalls - 1]) {
       translate([-offset, 0, small_edge_dist + (gaps * i)]) slot(small_d, 7);
     }
+
+    translate([-40, 60, fg + space + space / 2 + (space / 5)]) rotate([0, 0, -sba]) nut(7); // M4
+    translate([-40, 60, fg + space + space / 2 - (space / 5)]) rotate([0, 0, -sba]) nut(8); // M5
+    translate([-40, 60, fg + space / 2 + (space / 5)]) rotate([0, 0, -sba]) nut(10); // M6
+    translate([-40, 60, fg + space / 2 - (space / 5)]) rotate([0, 0, -sba]) nut(13); // M8
+    translate([43, 60, fg + space / 2]) rotate([0, 0, sba]) nut(17); // M10
+    translate([43, 60, fg + space + space / 2]) rotate([0, 0, sba]) nut(19); // M12
+    
+    translate([-44,0,67]) rotate([0,90,-sba]) label("4");
+    translate([-44,0,56]) rotate([0,90,-sba]) label("5");
+    translate([-44,0,31]) rotate([0,90,-sba]) label("6");
+    translate([-44,0,21]) rotate([0,90,-sba]) label("8");
+
+    translate([44,0,26]) rotate([0,-90,sba]) label("10");
+    translate([44,0,61]) rotate([0,-90,sba]) label("12");
+
+    translate([-66,0,0]) rotate([0,0,-sba]) translate([0,0,-10]) cube([10,20,total_len + 20]);
   }
 }
