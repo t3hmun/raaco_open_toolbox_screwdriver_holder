@@ -126,7 +126,6 @@ gaps = (total_len - (small_edge_dist * 2)) / (smalls - 1);
 difference() {
   union() {
     translate([0, 0, 0]) sect(total_len);
-    translate([0, 0, 3.4]) stamp("mun");
   }
 
   union() {
@@ -170,5 +169,7 @@ difference() {
     translate([44,0,61]) rotate([0,-90,sba]) label("12");
 
     translate([-66,0,0]) rotate([0,0,-sba]) translate([0,0,-10]) cube([10,20,total_len + 20]);
+
+    translate([0, 0, 3.4]) stamp("mun");
   }
 }
